@@ -1,4 +1,4 @@
-package plusnminus.model;
+package minusnplus.model;
 
 public class Prospect {
     //Im calling the main object a prospect as of now, may change.

@@ -1,4 +1,4 @@
-package plusnminus.controller;
+package minusnplus.controller;
 
 public class ScrapeController {
 

@@ -1,4 +1,4 @@
-package plusnminus.model;
+package minusnplus.model;
 
 public class User {
     //3 different total users

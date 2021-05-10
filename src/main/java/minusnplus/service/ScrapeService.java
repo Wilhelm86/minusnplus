@@ -1,4 +1,4 @@
-package plusnminus.service;
+package minusnplus.service;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
