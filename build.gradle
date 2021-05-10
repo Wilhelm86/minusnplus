@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id "com.github.node-gradle.node" version "3.0.0-rc2"
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation 'org.jsoup:jsoup:1.13.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+task copyWebApp(type: Copy) {
+    from 'src/main/webapp/reminder/build'
+    into 'build/resources/main/static/.'
+}
+
+task appNpmInstall(type: NpmTask) {
+    description = "Installs all dependencies from package.json"
+    workingDir = file("${project.projectDir}/src/main/webapp/plusnminus")
+    args = ["install"]
+}
+
+task appNpmBuild(type: NpmTask) {
+    description = "Builds production version of the webapp"
+    workingDir = file("${project.projectDir}/src/main/webapp/plusnminus")
+    args = ["run", "build"]
+}
+
+appNpmBuild.dependsOn appNpmInstall
+copyWebApp.dependsOn appNpmBuild
+compileJava.dependsOn copyWebApp
+
+node {
+    // Set to ture before push
+    download = true
+
+    // Set the work directory for unpacking node
+    workDir = file("${project.buildDir}/nodejs")
+
+    // Set the work directory for NPM
+    npmWorkDir = file("${project.buildDir}/npm")
+}
